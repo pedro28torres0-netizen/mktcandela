@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candela Perú - Trazabilidad Tecnológica y Biocomercio</title>
+    <!-- Fuentes Modernas Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Librerías Externas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --candela-yellow: #F4A221;
+            --candela-yellow-soft: rgba(244, 162, 33, 0.15);
+            --candela-brown: #3E2526;
+            --candela-dark-green: #1B381A;
+            --candela-light-green: #5B8C4A;
+            
+            --card-origin-accent: #E8B949;
+            --card-materials-accent: #5B8C4A;
+            --card-process-accent: #8D5B4C;
+            --card-suppliers-accent: #3A7D8C;
+            --card-certs-accent: #8A4A82;
+
+            --text-primary: #1A1A1A;
+            --text-secondary: #555555;
+            
+            /* Sombras pronunciadas para resaltar tarjetas sobre el fondo de árboles */
+            --shadow-soft: 0 12px 35px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 18px 45px rgba(0, 0, 0, 0.4);
+            --border-radius-lg: 18px;
+            --border-radius-md: 12px;
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 11pt;
+            color: var(--text-primary);
+            line-height: 1.6;
+            
+            /* FONDO CON ÁRBOLES DE LA SELVA PERUANA CON CONTRASTE OPTIMIZADO */
+            background: linear-gradient(rgba(14, 30, 15, 0.65), rgba(14, 30, 15, 0.75)), 
+                        url('https://images.unsplash.com/photo-1516214104703-d870798883c5?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Header Corporativo */
+        .header {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            border-bottom: 2px solid var(--candela-yellow);
+            padding: 14px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        .header-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .official-logo {
+            display: flex;
+            align-items: stretch;
+            height: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .logo-left {
+            background-color: #F4A221;
+            color: #3E2526;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 11pt;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+        }
+
+        .logo-right {
+            background-color: #3E2526;
+            width: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-seed {
+            width: 12px;
+            height: 20px;
+            background-color: #F4A221;
+            border-radius: 50%;
+        }
+
+        .header-titles h1 {
+            font-size: 14pt;
+            color: var(--candela-brown);
+            font-weight: 800;
+        }
+
+        .header-titles p {
+            font-size: 9pt;
+            color: var(--text-secondary);
+        }
+
+        .btn-admin {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 10pt;
+            font-weight: 700;
+            background-color: var(--candela-brown);
+            color: #FFFFFF;
+            border: 1px solid var(--candela-yellow);
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        .btn-admin:hover {
+            background-color: var(--candela-yellow);
+            color: var(--candela-brown);
+            transform: translateY(-2px);
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px auto 15px auto;
+            max-width: 1240px;
+            padding: 0 20px;
+        }
+
+        .nav-btn {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 10.5pt;
+            font-weight: 700;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: var(--candela-brown);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn.active {
+            background-color: var(--candela-yellow);
+            color: var(--candela-brown);
+            box-shadow: 0 6px 20px rgba(244, 162, 33, 0.4);
+        }
+
+        .main-container {
+            max-width: 1240px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        .view-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .view-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* TARJETAS PRINCIPALES RESALTADAS SOBRE LA SELVA */
+        .intro-card {
+            background: #FFFFFF;
+            padding: 22px 28px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 22px;
+            border-left: 6px solid var(--candela-yellow);
+        }
+
+        .intro-card h2 {
+            font-size: 14pt;
+            color: var(--candela-dark-green);
+            margin-bottom: 4px;
+        }
+
+        .intro-card p {
+            font-size: 10pt;
+            color: var(--text-secondary);
+        }
+
+        .shop-control-box {
+            background: #FFFFFF;
+            padding: 22px 28px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 22px;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 18px;
+            align-items: center;
+        }
+
+        @media (max-width: 800px) {
+            .shop-control-box { grid-template-columns: 1fr; }
+        }
+
+        .select-group label {
+            display: block;
+            font-size: 9pt;
+            font-weight: 700;
+            color: var(--candela-brown);
+            margin-bottom: 5px;
+        }
+
+        .select-group select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid rgba(244, 162, 33, 0.4);
+            border-radius: var(--border-radius-md);
+            font-family: 'Inter', sans-serif;
+            font-size: 10.5pt;
+            font-weight: 600;
+            background: #FAFAFA;
+            outline: none;
+        }
+
+        .qty-group input {
+            width: 80px;
+            padding: 11px;
+            border: 2px solid #E0E0E0;
+            border-radius: var(--border-radius-md);
+            font-family: 'Inter', sans-serif;
+            font-size: 11pt;
+            text-align: center;
+            outline: none;
+        }
+
+        .price-tag-box { text-align: right; }
+        .price-label { font-size: 8.5pt; color: #777; }
+        .price-value { font-size: 17pt; font-weight: 800; color: var(--candela-dark-green); }
+
+        .btn-buy-now {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            background-color: var(--candela-yellow);
+            color: var(--candela-brown);
+            border: none;
+            padding: 12px 28px;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(244, 162, 33, 0.4);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-buy-now:hover {
+            transform: translateY(-2px);
+            background-color: #E89515;
+        }
+
+        .product-card-container {
+            background: #FFFFFF;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .product-header {
+            background-color: var(--candela-brown);
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .product-header h2 { font-size: 15pt; color: var(--candela-yellow); }
+
+        .batch-pill {
+            background-color: rgba(244, 162, 33, 0.15);
+            color: var(--candela-yellow);
+            border: 1px solid var(--candela-yellow);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 9.5pt;
+            font-weight: 700;
+        }
+
+        .product-content-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            padding: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .product-content-grid { grid-template-columns: 1fr; }
+        }
+
+        .media-col { display: flex; flex-direction: column; gap: 15px; }
+
+        .prod-img-box {
+            background-color: #FAFAFA;
+            border-radius: var(--border-radius-md);
+            padding: 12px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #EFEFEF;
+        }
+
+        .prod-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .qr-card {
+            background: #FAFAFA;
+            border-radius: var(--border-radius-md);
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #EFEFEF;
+        }
+
+        .qr-card h3 { font-size: 10pt; color: var(--candela-brown); margin-bottom: 8px; }
+        #qrcode { display: inline-block; padding: 8px; background: #FFFFFF; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 6px; }
+
+        .info-cards-col { display: flex; flex-direction: column; gap: 15px; }
+
+        .dynamic-card {
+            background: #FAFAFA;
+            border-radius: var(--border-radius-md);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #EEEEEE;
+            border-left: 5px solid #CCCCCC;
+            transition: var(--transition-smooth);
+        }
+
+        .dynamic-card h3 { font-size: 11pt; margin-bottom: 8px; font-weight: 700; }
+        .card-inner-flex { display: grid; grid-template-columns: 1fr 130px; gap: 15px; align-items: center; }
+
+        @media (max-width: 600px) {
+            .card-inner-flex { grid-template-columns: 1fr; }
+        }
+
+        .card-inner-flex p { font-size: 10pt; color: var(--text-secondary); }
+        .card-img-wrap { height: 85px; width: 130px; border-radius: 6px; overflow: hidden; background-color: #EAEAEA; }
+        .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+        .card-origin { border-left-color: var(--card-origin-accent); }
+        .card-origin h3 { color: #8A6300; }
+        .card-materials { border-left-color: var(--card-materials-accent); }
+        .card-materials h3 { color: var(--candela-dark-green); }
+        .card-process { border-left-color: var(--card-process-accent); }
+        .card-process h3 { color: #8D5B4C; }
+        .card-suppliers { border-left-color: var(--card-suppliers-accent); }
+        .card-suppliers h3 { color: #1E5C6B; }
+        .card-certs { border-left-color: var(--card-certs-accent); }
+        .card-certs h3 { color: #8A4A82; }
+
+        .cert-pills-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+        .cert-pill {
+            background-color: #F8F0F7;
+            color: var(--card-certs-accent);
+            border: 1px solid rgba(138, 74, 130, 0.2);
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 9pt;
+            font-weight: 600;
+        }
+
+        /* VISTA ADMIN */
+        .admin-box {
+            background-color: var(--candela-brown);
+            color: #FFFFFF;
+            padding: 22px 28px;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .admin-box h2 { font-size: 14pt; color: var(--candela-yellow); margin-bottom: 4px; }
+
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-tile {
+            background: #FFFFFF;
+            padding: 18px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-soft);
+            border-top: 4px solid var(--candela-yellow);
+            text-align: center;
+        }
+
+        .kpi-tile h4 { font-size: 9pt; color: var(--text-secondary); margin-bottom: 5px; }
+        .kpi-num { font-size: 18pt; font-weight: 800; color: var(--candela-brown); }
+
+        .nps-box-dashboard {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 20px;
+            border-left: 6px solid var(--candela-yellow);
+        }
+
+        .nps-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .nps-stat-card { background: #FAFAFA; padding: 12px; border-radius: 8px; border: 1px solid #EEEEEE; }
+        .nps-stat-card span { display: block; font-size: 14pt; font-weight: 700; color: var(--candela-dark-green); }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-tile, .table-tile {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .chart-tile h3, .table-tile h3 { font-size: 11.5pt; color: var(--candela-brown); margin-bottom: 15px; }
+
+        .custom-table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+        .custom-table th, .custom-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #F0F0F0; }
+        .custom-table th { background-color: #FAFAFA; color: var(--candela-brown); font-weight: 700; }
+
+        /* MODAL */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+            border-top: 6px solid var(--candela-yellow);
+        }
+
+        .modal-card h3 { font-size: 14pt; color: var(--candela-dark-green); margin-bottom: 8px; }
+        .modal-card p { font-size: 10pt; color: var(--text-secondary); margin-bottom: 20px; }
+
+        .nps-scale { display: flex; justify-content: space-between; gap: 4px; margin: 15px 0; }
+        .nps-btn {
+            flex: 1; padding: 10px 0; background: #F5F5F5; border: 1px solid #DDD;
+            border-radius: 6px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10pt; cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .nps-btn:hover, .nps-btn.selected {
+            background-color: var(--candela-yellow); color: var(--candela-brown); border-color: var(--candela-yellow);
+        }
+
+        .nps-labels-flex { display: flex; justify-content: space-between; font-size: 8.5pt; color: #777; margin-bottom: 20px; }
+        .btn-submit-nps {
+            background-color: var(--candela-dark-green); color: #FFFFFF; border: none; padding: 12px 25px;
+            border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; cursor: pointer; width: 100%;
+        }
+
+        /* CHATBOT */
+        .chatbot-wrapper { position: fixed; bottom: 25px; right: 25px; z-index: 3000; }
+        .chatbot-trigger {
+            background-color: var(--candela-brown); color: #FFFFFF; border: 2px solid var(--candela-yellow);
+            padding: 8px 18px 8px 10px; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .avatar-circle { width: 40px; height: 40px; background-color: var(--candela-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .avatar-face { width: 22px; height: 22px; background-color: var(--candela-brown); border-radius: 50%; position: relative; }
+        .avatar-eyes { position: absolute; top: 6px; left: 4px; width: 14px; display: flex; justify-content: space-between; }
+        .avatar-eye { width: 3px; height: 3px; background-color: #FFFFFF; border-radius: 50%; }
+
+        .chatbot-window {
+            display: none; width: 330px; background: #FFFFFF; border-radius: var(--border-radius-lg);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3); overflow: hidden; flex-direction: column; margin-bottom: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        .chat-head { background-color: var(--candela-brown); color: #FFFFFF; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+        .chat-body { height: 220px; overflow-y: auto; padding: 12px; background-color: #FAFAFA; display: flex; flex-direction: column; gap: 8px; }
+        .msg-bubble { padding: 8px 12px; border-radius: 10px; font-size: 9pt; line-height: 1.4; max-width: 85%; }
+        .msg-bubble.bot { background-color: #FFFFFF; border: 1px solid #E5E5E5; align-self: flex-start; }
+        .msg-bubble.user { background-color: var(--candela-yellow); color: var(--candela-brown); align-self: flex-end; font-weight: 600; }
+        .chat-quick-opts { padding: 8px; background: #FFFFFF; border-top: 1px solid #EEEEEE; display: flex; flex-direction: column; gap: 5px; }
+        .opt-btn {
+            font-family: 'Inter', sans-serif; font-size: 8.5pt; background-color: #F5F5F5; border: 1px solid #E0E0E0;
+            padding: 6px 10px; text-align: left; border-radius: 6px; cursor: pointer;
+        }
+        .opt-btn:hover { background-color: var(--candela-yellow-soft); border-color: var(--candela-yellow); }
+
+        .footer {
+            background-color: var(--candela-brown); color: rgba(255, 255, 255, 0.85); text-align: center;
+            padding: 18px; font-size: 9pt; border-top: 3px solid var(--candela-yellow); margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <div class="official-logo">
+                <div class="logo-left">CANDELA</div>
+                <div class="logo-right"><div class="logo-seed"></div></div>
+            </div>
+            <div class="header-titles">
+                <h1>CANDELA PERÚ</h1>
+                <p>Plataforma de Trazabilidad Tecnológica y Gestión de Biocomercio</p>
+            </div>
+            <div>
+                <button onclick="toggleAdminModal()" class="btn-admin" id="btnAdminAccess">Modo Administrador</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <button class="nav-btn active" id="tabPublic" onclick="switchView('public')">Vista Pública</button>
+        <button class="nav-btn" id="tabAdmin" onclick="switchView('admin')">Vista Administrador</button>
+    </nav>
+
+    <main class="main-container">
+
+        <!-- VISTA PÚBLICA -->
+        <section id="publicView" class="view-section active">
+            
+            <div class="intro-card">
+                <h2>“Proyecto y diagnóstico de la problemática relacionada con la trazabilidad tecnológica y el biocomercio en Candela Perú - Lima 2026”</h2>
+                <p>Candela Perú es una empresa pionera dedicada a la promoción del biocomercio sostenible y el aprovechamiento responsable de la biodiversidad de la selva peruana. Trabaja de la mano con comunidades nativas y asociaciones locales en regiones como Junín, Huánuco, Madre de Dios y San Martín para recolectar y elaborar productos orgánicos de alta calidad, tales como café gourmet, chocolate de cacao nativo, castañas amazónicas y aceite de sacha inchi. Su labor integra el comercio justo, la conservación ambiental y la trazabilidad tecnológica para conectar los recursos naturales del Perú con mercados nacionales e internacionales.</p>
+            </div>
+
+            <div class="shop-control-box">
+                <div class="select-group">
+                    <label for="productSelect">SELECCIONE PRODUCTO Y LOTE:</label>
+                    <select id="productSelect" onchange="loadProductDetails()"></select>
+                </div>
+                <div class="select-group qty-group">
+                    <label for="productQty">CANTIDAD (MAX 50):</label>
+                    <input type="number" id="productQty" min="1" max="50" value="1" onchange="updateTotalPrice()">
+                </div>
+                <div class="price-tag-box">
+                    <span class="price-label">Precio Referencial:</span>
+                    <div class="price-value" id="displayPrice">S/ 0.00</div>
+                </div>
+                <div>
+                    <button onclick="triggerCheckout()" class="btn-buy-now">Comprar Ahora</button>
+                </div>
+            </div>
+
+            <div class="product-card-container">
+                <div class="product-header">
+                    <h2 id="pName">Cargando Producto...</h2>
+                    <span class="batch-pill" id="pBatch">Lote: ---</span>
+                </div>
+
+                <div class="product-content-grid">
+                    <div class="media-col">
+                        <div class="prod-img-box">
+                            <img id="pImg" src="" alt="Imagen del producto">
+                        </div>
+                        <div class="qr-card">
+                            <h3>CÓDIGO QR DE TRAZABILIDAD</h3>
+                            <div id="qrcode"></div>
+                            <p style="font-size: 8pt; color: #777;">Escanee para validar autenticidad en campo.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-cards-col">
+                        <div class="dynamic-card card-origin">
+                            <h3>ORIGEN GEOGRÁFICO Y UBICACIÓN</h3>
+                            <div class="card-inner-flex">
+                                <p id="pOriginText">---</p>
+                                <div class="card-img-wrap"><img id="pOriginImg" src="" alt="Origen geográfico"></div>
+                            </div>
+                        </div>
+
+                        <div class="dynamic-card card-materials">
+                            <h3>MATERIA PRIMA UTILIZADA</h3>
+                            <div class="card-inner-flex">
+                                <p id="pMaterialText">---</p>
+                                <div class="card-img-wrap"><img id="pMaterialImg" src="" alt="Materia prima"></div>
+                            </div>
+                        </div>
+
+                        <div class="dynamic-card card-process">
+                            <h3>ETAPAS DE ELABORACIÓN Y PROCESAMIENTO</h3>
+                            <div class="card-inner-flex">
+                                <p id="pProcessText">---</p>
+                                <div class="card-img-wrap"><img id="pProcessImg" src="" alt="Proceso"></div>
+                            </div>
+                        </div>
+
+                        <div class="dynamic-card card-suppliers">
+                            <h3>PROVEEDORES Y RED DE BIOCOMERCIO</h3>
+                            <div class="card-inner-flex">
+                                <p id="pSupplierText">---</p>
+                                <div class="card-img-wrap"><img id="pSupplierImg" src="" alt="Proveedores"></div>
+                            </div>
+                        </div>
+
+                        <div class="dynamic-card card-certs">
+                            <h3>CERTIFICACIONES Y SELLOS DE CALIDAD</h3>
+                            <div class="card-inner-flex">
+                                <div id="pCertTags" class="cert-pills-wrap"></div>
+                                <div class="card-img-wrap"><img id="pCertImg" src="" alt="Certificados"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA ADMINISTRADOR -->
+        <section id="adminView" class="view-section">
+            <div class="admin-box">
+                <h2>PANEL DE CONTROL ADMINISTRATIVO Y MÉTRICAS NPS</h2>
+                <p>Monitoreo en tiempo real de transacciones simuladas, análisis de conversión y cálculo de Net Promoter Score.</p>
+            </div>
+
+            <div class="nps-box-dashboard">
+                <h3 style="font-size: 13pt; color: var(--candela-brown);">RESULTADO NET PROMOTER SCORE (NPS)</h3>
+                <p style="font-size: 9.5pt; color: #666;">Fórmula: (% Promotores [9-10]) - (% Detractores [0-6])</p>
+                <div class="nps-stats-grid">
+                    <div class="nps-stat-card">
+                        <small>Puntaje NPS Global</small>
+                        <span id="npsScoreValue" style="color: var(--candela-yellow);">+0</span>
+                    </div>
+                    <div class="nps-stat-card">
+                        <small>Promotores (9-10)</small>
+                        <span id="npsPromoters">0</span>
+                    </div>
+                    <div class="nps-stat-card">
+                        <small>Pasivos (7-8)</small>
+                        <span id="npsPassives">0</span>
+                    </div>
+                    <div class="nps-stat-card">
+                        <small>Detractores (0-6)</small>
+                        <span id="npsDetractors" style="color: #D32F2F;">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-row">
+                <div class="kpi-tile">
+                    <h4>VENTAS TOTALES REGISTRADAS</h4>
+                    <div class="kpi-num" id="kpiTotalPurchases">0</div>
+                </div>
+                <div class="kpi-tile">
+                    <h4>INGRESOS ESTIMADOS (S/)</h4>
+                    <div class="kpi-num" id="kpiTotalRevenue">S/ 0.00</div>
+                </div>
+                <div class="kpi-tile">
+                    <h4>TOTAL RESPUESTAS NPS</h4>
+                    <div class="kpi-num" id="kpiTotalNps">0</div>
+                </div>
+                <div class="kpi-tile">
+                    <h4>PRODUCTO LÍDER DE VENTAS</h4>
+                    <div class="kpi-num" style="font-size: 11pt;" id="kpiTopProduct">---</div>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-tile">
+                    <h3>Ventas y Demanda por Producto (Unidades)</h3>
+                    <canvas id="salesBarChart"></canvas>
+                </div>
+                <div class="chart-tile">
+                    <h3>Distribución de Calificaciones NPS</h3>
+                    <canvas id="npsPieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="table-tile">
+                <h3>REGISTRO DE COMPRAS Y ENCUESTAS NPS EN TIEMPO REAL</h3>
+                <div style="overflow-x: auto;">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>HORA</th>
+                                <th>PRODUCTO / LOTE</th>
+                                <th>CANTIDAD</th>
+                                <th>TOTAL PAGADO</th>
+                                <th>CALIFICACIÓN NPS</th>
+                                <th>CATEGORÍA</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL COMPRA & NPS -->
+    <div id="checkoutModal" class="modal-bg">
+        <div class="modal-card">
+            <div id="modalStep1">
+                <h3 style="color: var(--candela-dark-green);">¡GRACIAS POR SU COMPRA!</h3>
+                <p>Su pedido simulado ha sido procesado con éxito bajo estándares de comercio justo y biocomercio.</p>
+                <hr style="border: 0; border-top: 1px solid #EEE; margin: 15px 0;">
+                <p style="font-weight: 700; color: var(--candela-brown);">¿Qué tan probable es que recomiendes nuestra empresa a un amigo o familiar?</p>
+                
+                <div class="nps-scale" id="npsScaleButtons"></div>
+                <div class="nps-labels-flex">
+                    <span>0 (Nada probable)</span>
+                    <span>10 (Muy probable)</span>
+                </div>
+
+                <button onclick="submitNpsFeedback()" class="btn-submit-nps">Enviar Calificación NPS</button>
+            </div>
+            
+            <div id="modalStep2" style="display: none;">
+                <h3 style="color: var(--candela-dark-green);">¡VALORAMOS SU OPINIÓN!</h3>
+                <p>Su respuesta ha sido registrada y enviada al panel administrativo de Candela Perú para medir la satisfacción del cliente.</p>
+                <button onclick="closeCheckoutModal()" class="btn-submit-nps" style="background-color: var(--candela-brown);">Regresar al Catálogo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHATBOT - ASISTENTE ELVISPERA -->
+    <div class="chatbot-wrapper">
+        <button class="chatbot-trigger" onclick="toggleChatbot()">
+            <div class="avatar-circle">
+                <div class="avatar-face">
+                    <div class="avatar-eyes">
+                        <div class="avatar-eye"></div>
+                        <div class="avatar-eye"></div>
+                    </div>
+                </div>
+            </div>
+            <span style="font-weight: 700; font-size: 9.5pt;">Asistente Elvispera</span>
+        </button>
+
+        <div id="chatbotWindow" class="chatbot-window">
+            <div class="chat-head">
+                <span style="font-size: 10pt; font-weight: 700; color: var(--candela-yellow);">Asistente Elvispera - Guía</span>
+                <button onclick="toggleChatbot()" style="background:none; border:none; color:#FFF; font-size:14pt; cursor:pointer;">×</button>
+            </div>
+            <div id="chatBody" class="chat-body">
+                <div class="msg-bubble bot">¡Hola! Soy <strong>Elvispera</strong>. Puedes simular compras sin registro, escanear el QR y evaluar nuestro servicio con NPS. ¿En qué te ayudo?</div>
+            </div>
+            <div class="chat-quick-opts">
+                <button class="opt-btn" onclick="askElvispera(1)">¿Cómo funciona la simulación de compra?</button>
+                <button class="opt-btn" onclick="askElvispera(2)">¿Qué mide la métrica NPS?</button>
+                <button class="opt-btn" onclick="askElvispera(3)">Clave del modo administrador</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LOGIN ADMIN -->
+    <div id="loginModal" class="modal-bg">
+        <div class="modal-card">
+            <h3>ACCESO RESTRINGIDO</h3>
+            <p>Ingrese la clave de gerencia:</p>
+            <input type="password" id="adminPassword" placeholder="Clave secreta" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:6px; outline:none;">
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
+                <button onclick="checkAdminPassword()" class="btn-submit-nps" style="width:auto; padding:8px 16px;">Ingresar</button>
+                <button onclick="closeAdminModal()" class="btn-submit-nps" style="width:auto; padding:8px 16px; background:#999;">Cancelar</button>
+            </div>
+            <p id="loginError" style="color: #D32F2F; font-size: 8.5pt; margin-top: 8px;"></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Candela Perú - Proyecto con Fines Universitario de Trazabilidad Tecnológica en Biocomercio</p>
+    </footer>
+
+    <script>
+        // Base de Datos de Productos con imágenes adaptadas y estables
+        const productsDatabase = [
+            {
+                id: "PROD-CAF-01",
+                name: "Café Orgánico Gourmet Chanchamayo",
+                batch: "LOTE-CF-2026-09",
+                price: 32.50,
+                productImg: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=600&q=80",
+                originText: "Finca Villa Rica y Chanchamayo, Provincia de Chanchamayo, Región Junín (Selva Central del Perú). Cultivado a 1,600 msnm.",
+                originImg: "https://images.unsplash.com/photo-1516214104703-d870798883c5?auto=format&fit=crop&w=400&q=80",
+                materialText: "Granos selectos 100% Arábica de variedad Caturra y Typica cosechados a mano.",
+                materialImg: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80",
+                processText: "Despulpado ecológico, fermentación natural de 18 horas y secado en toldos parabólicos.",
+                processImg: "https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=400&q=80",
+                supplierText: "Cooperativa Agraria Cafetalera de Chanchamayo (65 familias caficultoras aliadas).",
+                supplierImg: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=400&q=80",
+                certs: ["Fair Trade Certified", "Orgánico USDA", "Sello Biocomercio"],
+                certImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80",
+                qrUrl: "https://candelaorganic.com/trazabilidad/PROD-CAF-01"
+            },
+            {
+                id: "PROD-CHO-02",
+                name: "Chocolate Orgánico 70% Cacao Nativo",
+                batch: "LOTE-CH-2026-11",
+                price: 18.00,
+                productImg: "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=600&q=80",
+                originText: "Cuenca del Río Huallaga, Distrito de Tingo María, Región Huánuco. Sistema agroforestal diversificado.",
+                originImg: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80",
+                materialText: "Granos de Cacao Nativo Criollo de fina aroma y azúcar de caña orgánica.",
+                materialImg: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=400&q=80",
+                processText: "Fermentación en cajones de madera, tostado suave y conchado lento por 48 horas.",
+                processImg: "https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=400&q=80",
+                supplierText: "Asociación de Cacaoteros Sostenibles del Huallaga (48 productores recolectores).",
+                supplierImg: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=400&q=80",
+                certs: ["Orgánico USDA", "SPP Comercio Justo", "Sello Biocomercio"],
+                certImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80",
+                qrUrl: "https://candelaorganic.com/trazabilidad/PROD-CHO-02"
+            },
+            {
+                id: "PROD-CAS-03",
+                name: "Castaña Amazónica Silvestre Pelada",
+                batch: "LOTE-CT-2026-15",
+                price: 45.00,
+                productImg: "https://images.unsplash.com/photo-1543208541-005c31278153?auto=format&fit=crop&w=600&q=80",
+                originText: "Reserva Nacional Tambopata y cuenca del Río Madre de Dios, Puerto Maldonado.",
+                originImg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80",
+                materialText: "Nueces silvestres de Bertholletia excelsa recolectadas de árboles centenarios.",
+                materialImg: "https://images.unsplash.com/photo-1543208541-005c31278153?auto=format&fit=crop&w=400&q=80",
+                processText: "Recolección forestal sostenible, quiebre manual, deshidratado y empaque al vacío.",
+                processImg: "https://images.unsplash.com/photo-1509358271058-acd05cc93898?auto=format&fit=crop&w=400&q=80",
+                supplierText: "Asociación de Castañeros de Madre de Dios (108 familias en convenio con OSINFOR).",
+                supplierImg: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=400&q=80",
+                certs: ["OSINFOR Legal", "Fair Trade", "Sello Biocomercio"],
+                certImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80",
+                qrUrl: "https://candelaorganic.com/trazabilidad/PROD-CAS-03"
+            },
+            {
+                id: "PROD-SAC-04",
+                name: "Aceite Orgánico de Sacha Inchi",
+                batch: "LOTE-SI-2026-08",
+                price: 38.00,
+                productImg: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80",
+                originText: "Provincia de Lamas y Valles del Bajo Huallaga, Región San Martín.",
+                originImg: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=400&q=80",
+                materialText: "Semillas seleccionadas de Plukenetia volubilis de cultivos agroforestales.",
+                materialImg: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=400&q=80",
+                processText: "Prensado mecánico en frío a menos de 45°C sin solventes químicos.",
+                processImg: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=400&q=80",
+                supplierText: "Comité de Pequeños Agricultores Sostenibles de San Martín (42 familias aliadas).",
+                supplierImg: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=400&q=80",
+                certs: ["Fair Trade", "Orgánico USDA", "Non-GMO"],
+                certImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80",
+                qrUrl: "https://candelaorganic.com/trazabilidad/PROD-SAC-04"
+            }
+        ];
+
+        let transactionsLog = [
+            { time: "10:15 AM", product: "Café Orgánico Gourmet Chanchamayo", qty: 2, total: 65.00, nps: 10, category: "Promotor" },
+            { time: "11:30 AM", product: "Chocolate Orgánico 70% Cacao Nativo", qty: 3, total: 54.00, nps: 9, category: "Promotor" },
+            { time: "01:10 PM", product: "Castaña Amazónica Silvestre Pelada", qty: 1, total: 45.00, nps: 8, category: "Pasivo" },
+            { time: "02:45 PM", product: "Aceite Orgánico de Sacha Inchi", qty: 2, total: 76.00, nps: 10, category: "Promotor" }
+        ];
+
+        let isAdminLoggedIn = false;
+        let selectedNpsValue = null;
+        let currentCheckoutProduct = null;
+        let currentCheckoutQty = 1;
+        let barChartInstance = null;
+        let pieChartInstance = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            populateSelect();
+            buildNpsScale();
+            loadProductDetails();
+        });
+
+        function populateSelect() {
+            const select = document.getElementById("productSelect");
+            select.innerHTML = "";
+            productsDatabase.forEach((p, idx) => {
+                const opt = document.createElement("option");
+                opt.value = idx;
+                opt.textContent = `${p.name} - S/ ${p.price.toFixed(2)} (${p.batch})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function loadProductDetails() {
+            const idx = document.getElementById("productSelect").value;
+            const p = productsDatabase[idx];
+            
+            document.getElementById("pName").textContent = p.name;
+            document.getElementById("pBatch").textContent = p.batch;
+            document.getElementById("pImg").src = p.productImg;
+            document.getElementById("pOriginText").textContent = p.originText;
+            document.getElementById("pOriginImg").src = p.originImg;
+            document.getElementById("pMaterialText").textContent = p.materialText;
+            document.getElementById("pMaterialImg").src = p.materialImg;
+            document.getElementById("pProcessText").textContent = p.processText;
+            document.getElementById("pProcessImg").src = p.processImg;
+            document.getElementById("pSupplierText").textContent = p.supplierText;
+            document.getElementById("pSupplierImg").src = p.supplierImg;
+            
+            const certWrap = document.getElementById("pCertTags");
+            certWrap.innerHTML = "";
+            p.certs.forEach(c => {
+                const span = document.createElement("span");
+                span.className = "cert-pill";
+                span.textContent = c;
+                certWrap.appendChild(span);
+            });
+            document.getElementById("pCertImg").src = p.certImg;
+
+            const qrBox = document.getElementById("qrcode");
+            qrBox.innerHTML = "";
+            new QRCode(qrBox, {
+                text: p.qrUrl,
+                width: 110,
+                height: 110,
+                colorDark: "#3E2526",
+                colorLight: "#FFFFFF",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            const idx = document.getElementById("productSelect").value;
+            const p = productsDatabase[idx];
+            let qty = parseInt(document.getElementById("productQty").value) || 1;
+            if(qty > 50) { qty = 50; document.getElementById("productQty").value = 50; }
+            if(qty < 1) { qty = 1; document.getElementById("productQty").value = 1; }
+            
+            const total = p.price * qty;
+            document.getElementById("displayPrice").textContent = `S/ ${total.toFixed(2)}`;
+        }
+
+        function triggerCheckout() {
+            const idx = document.getElementById("productSelect").value;
+            currentCheckoutProduct = productsDatabase[idx];
+            currentCheckoutQty = parseInt(document.getElementById("productQty").value) || 1;
+
+            selectedNpsValue = null;
+            document.querySelectorAll('.nps-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById("modalStep1").style.display = "block";
+            document.getElementById("modalStep2").style.display = "none";
+            document.getElementById("checkoutModal").style.display = "flex";
+        }
+
+        function buildNpsScale() {
+            const scaleDiv = document.getElementById("npsScaleButtons");
+            scaleDiv.innerHTML = "";
+            for(let i=0; i<=10; i++) {
+                const btn = document.createElement("button");
+                btn.className = "nps-btn";
+                btn.textContent = i;
+                btn.onclick = () => selectNps(i, btn);
+                scaleDiv.appendChild(btn);
+            }
+        }
+
+        function selectNps(val, btnElem) {
+            selectedNpsValue = val;
+            document.querySelectorAll('.nps-btn').forEach(b => b.classList.remove('selected'));
+            btnElem.classList.add('selected');
+        }
+
+        function submitNpsFeedback() {
+            if(selectedNpsValue === null) {
+                alert("Por favor seleccione un número del 0 al 10 para continuar.");
+                return;
+            }
+
+            let category = "Pasivo";
+            if(selectedNpsValue >= 9) category = "Promotor";
+            else if(selectedNpsValue <= 6) category = "Detractor";
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            transactionsLog.unshift({
+                time: timeStr,
+                product: currentCheckoutProduct.name,
+                qty: currentCheckoutQty,
+                total: currentCheckoutProduct.price * currentCheckoutQty,
+                nps: selectedNpsValue,
+                category: category
+            });
+
+            document.getElementById("modalStep1").style.display = "none";
+            document.getElementById("modalStep2").style.display = "block";
+
+            if(isAdminLoggedIn) updateAdminDashboard();
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById("checkoutModal").style.display = "none";
+        }
+
+        function switchView(v) {
+            if(v === 'admin' && !isAdminLoggedIn) {
+                toggleAdminModal();
+                return;
+            }
+            document.getElementById("publicView").classList.remove("active");
+            document.getElementById("adminView").classList.remove("active");
+            document.getElementById("tabPublic").classList.remove("active");
+            document.getElementById("tabAdmin").classList.remove("active");
+
+            if(v === 'public') {
+                document.getElementById("publicView").classList.add("active");
+                document.getElementById("tabPublic").classList.add("active");
+            } else {
+                document.getElementById("adminView").classList.add("active");
+                document.getElementById("tabAdmin").classList.add("active");
+                updateAdminDashboard();
+            }
+        }
+
+        function toggleAdminModal() {
+            if(isAdminLoggedIn) { switchView('admin'); return; }
+            document.getElementById("loginModal").style.display = "flex";
+            document.getElementById("adminPassword").value = "";
+            document.getElementById("loginError").textContent = "";
+        }
+
+        function closeAdminModal() { document.getElementById("loginModal").style.display = "none"; }
+
+        function checkAdminPassword() {
+            const pass = document.getElementById("adminPassword").value;
+            if(pass === "admin2026") {
+                isAdminLoggedIn = true;
+                closeAdminModal();
+                document.getElementById("btnAdminAccess").textContent = "Admin (Activo)";
+                switchView('admin');
+            } else {
+                document.getElementById("loginError").textContent = "Clave incorrecta. Use: admin2026";
+            }
+        }
+
+        function updateAdminDashboard() {
+            const totalPurchases = transactionsLog.length;
+            let totalRevenue = 0;
+            let promoters = 0, passives = 0, detractors = 0;
+
+            const productCounts = {};
+            productsDatabase.forEach(p => productCounts[p.name] = 0);
+
+            transactionsLog.forEach(t => {
+                totalRevenue += t.total;
+                productCounts[t.product] = (productCounts[t.product] || 0) + t.qty;
+
+                if(t.nps >= 9) promoters++;
+                else if(t.nps >= 7) passives++;
+                else detractors++;
+            });
+
+            let npsScore = 0;
+            if(totalPurchases > 0) {
+                const promPct = (promoters / totalPurchases) * 100;
+                const detPct = (detractors / totalPurchases) * 100;
+                npsScore = Math.round(promPct - detPct);
+            }
+
+            document.getElementById("npsScoreValue").textContent = (npsScore > 0 ? "+" + npsScore : npsScore);
+            document.getElementById("npsPromoters").textContent = promoters;
+            document.getElementById("npsPassives").textContent = passives;
+            document.getElementById("npsDetractors").textContent = detractors;
+
+            document.getElementById("kpiTotalPurchases").textContent = totalPurchases;
+            document.getElementById("kpiTotalRevenue").textContent = `S/ ${totalRevenue.toFixed(2)}`;
+            document.getElementById("kpiTotalNps").textContent = totalPurchases;
+
+            let topProd = "Ninguno", maxQ = 0;
+            for(let prod in productCounts) {
+                if(productCounts[prod] > maxQ) { maxQ = productCounts[prod]; topProd = prod; }
+            }
+            document.getElementById("kpiTopProduct").textContent = topProd;
+
+            const tbody = document.getElementById("adminTableBody");
+            tbody.innerHTML = "";
+            transactionsLog.forEach(t => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${t.time}</td>
+                    <td>${t.product}</td>
+                    <td>${t.qty} un.</td>
+                    <td>S/ ${t.total.toFixed(2)}</td>
+                    <td><strong>${t.nps} / 10</strong></td>
+                    <td><span style="color: ${t.category==='Promotor'?'#2B5329':t.category==='Pasivo'?'#E89515':'#D32F2F'}; font-weight:700;">${t.category}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            renderCharts(productCounts, promoters, passives, detractors);
+        }
+
+        function renderCharts(prodCounts, prom, pass, det) {
+            const labels = Object.keys(prodCounts).map(k => k.split(' ')[0]);
+            const dataVals = Object.values(prodCounts);
+
+            if(barChartInstance) barChartInstance.destroy();
+            if(pieChartInstance) pieChartInstance.destroy();
+
+            const ctx1 = document.getElementById("salesBarChart").getContext("2d");
+            barChartInstance = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Unidades Vendidas',
+                        data: dataVals,
+                        backgroundColor: '#F4A221',
+                        borderRadius: 6
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } } }
+            });
+
+            const ctx2 = document.getElementById("npsPieChart").getContext("2d");
+            pieChartInstance = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Promotores (9-10)', 'Pasivos (7-8)', 'Detractores (0-6)'],
+                    datasets: [{
+                        data: [prom, pass, det],
+                        backgroundColor: ['#2B5329', '#F4A221', '#D32F2F']
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        function toggleChatbot() {
+            const win = document.getElementById("chatbotWindow");
+            win.style.display = (win.style.display === "flex" ? "none" : "flex");
+        }
+
+        function askElvispera(opt) {
+            const body = document.getElementById("chatBody");
+            let q = "", a = "";
+            if(opt === 1) {
+                q = "¿Cómo funciona la simulación de compra?";
+                a = "Selecciona cualquier producto, define la cantidad y haz clic en 'Comprar Ahora' para generar una orden sin registro y responder la encuesta NPS.";
+            } else if(opt === 2) {
+                q = "¿Qué mide la métrica NPS?";
+                a = "Mide la satisfacción del cliente restando el porcentaje de detractores al porcentaje de promotores.";
+            } else if(opt === 3) {
+                q = "Clave de administrador";
+                a = "La clave para acceder al panel gerencial y métricas NPS es: admin2026.";
+            }
+
+            const uDiv = document.createElement("div");
+            uDiv.className = "msg-bubble user";
+            uDiv.textContent = q;
+            body.appendChild(uDiv);
+
+            setTimeout(() => {
+                const bDiv = document.createElement("div");
+                bDiv.className = "msg-bubble bot";
+                bDiv.textContent = a;
+                body.appendChild(bDiv);
+                body.scrollTop = body.scrollHeight;
+            }, 300);
+
+            body.scrollTop = body.scrollHeight;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,589 @@
+/* ===================================================
+   HOJA DE ESTILOS INSTITUCIONAL - CANDELA PERÚ
+   Fuentes: Aharoni (12pt / 16px base)
+   Sin iconos ni emojis / Cuadros dinámicos de colores
+   =================================================== */
+
+@font-face {
+    font-family: 'Aharoni';
+    src: local('Aharoni'), local('Aharoni Bold'), url('https://fonts.cdnfonts.com/s/14316/AHARONI.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+:root {
+    /* Paleta Institucional Candela Perú */
+    --candela-yellow: #F4A221;
+    --candela-brown: #3E2526;
+    --candela-dark-green: #2B5329;
+    --candela-light-green: #5B8C4A;
+    --candela-bg: #F9F7F2;
+    --candela-card-bg: #FFFFFF;
+
+    /* Cuadros Temáticos de Trazabilidad */
+    --bg-origin: #FFF8E7;
+    --border-origin: #E8B949;
+    --bg-materials: #F2F8F0;
+    --border-materials: #5B8C4A;
+    --bg-process: #F5EFEB;
+    --border-process: #8D5B4C;
+    --bg-suppliers: #EBF3F5;
+    --border-suppliers: #3A7D8C;
+    --bg-certs: #F9F0F8;
+    --border-certs: #8A4A82;
+
+    --text-color: #222222;
+    --border-radius: 6px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Aharoni', 'Arial Bold', sans-serif;
+    font-size: 12pt; /* Requerimiento explícito: Aharoni tamaño 12 */
+    background-color: var(--candela-bg);
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+/* Header & Logotipo */
+.header {
+    background-color: #FFFFFF;
+    border-bottom: 5px solid var(--candela-yellow);
+    padding: 15px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo {
+    max-height: 55px;
+    width: auto;
+    object-fit: contain;
+}
+
+.header-titles h1 {
+    font-size: 16pt;
+    color: var(--candela-brown);
+    letter-spacing: 1px;
+}
+
+.header-titles p {
+    font-size: 10pt;
+    color: #666666;
+}
+
+.admin-access-btn button {
+    font-family: 'Aharoni', sans-serif;
+    font-size: 11pt;
+    background-color: var(--candela-brown);
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 18px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.admin-access-btn button:hover {
+    background-color: var(--candela-yellow);
+    color: var(--candela-brown);
+}
+
+/* Navegación de Vistas */
+.nav-bar {
+    background-color: var(--candela-brown);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px;
+}
+
+.nav-btn {
+    font-family: 'Aharoni', sans-serif;
+    font-size: 11pt;
+    background: transparent;
+    color: #FFFFFF;
+    border: 2px solid transparent;
+    padding: 8px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    background-color: var(--candela-yellow);
+    color: var(--candela-brown);
+}
+
+/* Contenedor Principal */
+.main-container {
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+.view-section {
+    display: none;
+}
+
+.view-section.active {
+    display: block;
+}
+
+.intro-box {
+    background-color: #FFFFFF;
+    border-left: 6px solid var(--candela-dark-green);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.intro-box h2 {
+    font-size: 14pt;
+    color: var(--candela-dark-green);
+    margin-bottom: 5px;
+}
+
+.intro-box p {
+    font-size: 11pt;
+}
+
+/* Selector de Productos */
+.selector-card {
+    background-color: #FFFFFF;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid #E0E0E0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.selector-card label {
+    font-size: 12pt;
+    color: var(--candela-brown);
+}
+
+.selector-card select {
+    font-family: 'Aharoni', sans-serif;
+    font-size: 12pt;
+    flex: 1;
+    min-width: 280px;
+    padding: 10px;
+    border: 2px solid var(--candela-yellow);
+    border-radius: var(--border-radius);
+    background-color: #FFFFFF;
+    outline: none;
+}
+
+/* Tarjeta Principal de Producto */
+.product-main-card {
+    background-color: #FFFFFF;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid #E0E0E0;
+    overflow: hidden;
+}
+
+.product-header-bar {
+    background-color: var(--candela-brown);
+    color: #FFFFFF;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.product-header-bar h2 {
+    font-size: 15pt;
+    color: var(--candela-yellow);
+}
+
+.batch-badge {
+    background-color: var(--candela-yellow);
+    color: var(--candela-brown);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11pt;
+}
+
+.product-body-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 900px) {
+    .product-body-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Columna de Multimedia (Imagen del Producto + QR) */
+.product-media-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.image-frame {
+    background-color: #FFFFFF;
+    border: 2px solid #E0E0E0;
+    border-radius: var(--border-radius);
+    padding: 10px;
+    text-align: center;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-frame img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.qr-box {
+    background-color: #F9F9F9;
+    border: 1px solid #DDDDDD;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+}
+
+.qr-box h3 {
+    font-size: 11pt;
+    color: var(--candela-brown);
+    margin-bottom: 10px;
+}
+
+#qrcode {
+    display: inline-block;
+    padding: 8px;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    margin-bottom: 8px;
+}
+
+.qr-desc {
+    font-size: 9pt;
+    color: #666666;
+}
+
+/* Cuadros Dinámicos de Trazabilidad */
+.traceability-grid-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-card {
+    border-radius: var(--border-radius);
+    border-left: 6px solid #CCCCCC;
+    padding: 12px 15px;
+}
+
+.card-title-bar h3 {
+    font-size: 12pt;
+    margin-bottom: 8px;
+}
+
+.card-content-flex {
+    display: grid;
+    grid-template-columns: 1fr 140px;
+    gap: 15px;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .card-content-flex {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card-text p {
+    font-size: 11pt;
+    text-align: justify;
+}
+
+.card-image-box {
+    height: 95px;
+    width: 140px;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Colores de Cuadros Temáticos */
+.card-origin {
+    background-color: var(--bg-origin);
+    border-left-color: var(--border-origin);
+}
+.card-origin .card-title-bar h3 { color: #8A6300; }
+
+.card-materials {
+    background-color: var(--bg-materials);
+    border-left-color: var(--border-materials);
+}
+.card-materials .card-title-bar h3 { color: var(--candela-dark-green); }
+
+.card-process {
+    background-color: var(--bg-process);
+    border-left-color: var(--border-process);
+}
+.card-process .card-title-bar h3 { color: #8D5B4C; }
+
+.card-suppliers {
+    background-color: var(--bg-suppliers);
+    border-left-color: var(--border-suppliers);
+}
+.card-suppliers .card-title-bar h3 { color: #1E5C6B; }
+
+.card-certs {
+    background-color: var(--bg-certs);
+    border-left-color: var(--border-certs);
+}
+.card-certs .card-title-bar h3 { color: #8A4A82; }
+
+/* Etiquetas de Certificaciones */
+.tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.cert-tag-item {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-certs);
+    color: var(--border-certs);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10pt;
+}
+
+/* ================= PANEL ADMINISTRADOR ================= */
+.admin-header-box {
+    background-color: var(--candela-brown);
+    color: #FFFFFF;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.admin-header-box h2 {
+    font-size: 14pt;
+    color: var(--candela-yellow);
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-top: 4px solid var(--candela-yellow);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.kpi-card h4 {
+    font-size: 10pt;
+    color: #666666;
+    margin-bottom: 5px;
+}
+
+.kpi-value {
+    font-size: 18pt;
+    color: var(--candela-brown);
+}
+
+.kpi-value.small-text {
+    font-size: 12pt;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 500px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: var(--border-radius);
+    padding: 15px;
+}
+
+.chart-card h3 {
+    font-size: 12pt;
+    color: var(--candela-brown);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.table-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: var(--border-radius);
+    padding: 15px;
+}
+
+.table-card h3 {
+    font-size: 12pt;
+    color: var(--candela-brown);
+    margin-bottom: 15px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11pt;
+}
+
+.data-table th, .data-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.data-table th {
+    background-color: #F4F4F4;
+    color: var(--candela-brown);
+}
+
+.status-ok {
+    color: var(--candela-dark-green);
+}
+
+/* Modal de Autenticación */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    max-width: 400px;
+    width: 90%;
+    border-top: 5px solid var(--candela-yellow);
+}
+
+.modal-content h3 {
+    font-size: 12pt;
+    color: var(--candela-brown);
+    margin-bottom: 10px;
+}
+
+.modal-content input {
+    font-family: 'Aharoni', sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    font-size: 11pt;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-confirm {
+    font-family: 'Aharoni', sans-serif;
+    background-color: var(--candela-dark-green);
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    font-family: 'Aharoni', sans-serif;
+    background-color: #999999;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.error-msg {
+    color: #D32F2F;
+    font-size: 10pt;
+    margin-top: 10px;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--candela-brown);
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+    font-size: 10pt;
+    border-top: 3px solid var(--candela-yellow);
+}
